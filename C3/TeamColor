@@ -10,7 +10,7 @@ local PrisonerColors = {
 	LeftArmColor = BrickColor.new("Neon orange"),
 	RightArmColor = BrickColor.new("Neon orange"),
 	HeadColor = BrickColor.new("Pastel brown"),
-	TorsoColor = BrickColor.new("TGA brown"),
+	TorsoColor = BrickColor.new("CGA brown"),
 }
 
 local PoliceColors = {
