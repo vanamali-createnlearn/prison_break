@@ -1,0 +1,53 @@
+-- ====================
+-- C3: Team-Specific Body Colors
+-- ====================
+local Players = game:GetService("Players")
+
+-- Body color definitions
+local PrisonerColors = {
+	LeftLegColor = BrickColor.new("Neon orange"),
+	RightLegColor = BrickColor.new("Neon orange"),
+	LeftArmColor = BrickColor.new("Neon orange"),
+	RightArmColor = BrickColor.new("Neon orange"),
+	HeadColor = BrickColor.new("Pastel brown"),
+	TorsoColor = BrickColor.new("TGA brown"),
+}
+
+local PoliceColors = {
+	LeftLegColor = BrickColor.new("Black"),
+	RightLegColor = BrickColor.new("Black"),
+	LeftArmColor = BrickColor.new("Storm blue"),
+	RightArmColor = BrickColor.new("Storm blue"),
+	TorsoColor = BrickColor.new("Storm blue"),
+	HeadColor = BrickColor.new("Pastel brown"),
+}
+
+local function applyTeamColors(player)
+	local char = player.Character
+	if not char then return end
+
+	-- Ensure BodyColors object exists
+	local bodyColors = char:FindFirstChildOfClass("BodyColors")
+	if not bodyColors then
+		bodyColors = Instance.new("BodyColors")
+		bodyColors.Parent = char
+	end
+
+	-- Pick colors based on team
+	local colorsToUse = (player.Team == prisonerTeam) and PrisonerColors or PoliceColors
+
+	-- Apply the colors
+	for partName, color in pairs(colorsToUse) do
+		if bodyColors[partName] ~= nil then
+			bodyColors[partName] = color
+		end
+	end
+end
+
+-- Connect the function to CharacterAdded
+Players.PlayerAdded:Connect(function(player)
+	player.CharacterAdded:Connect(function(character)
+		applyTeamColors(player)
+	end)
+end)
+
