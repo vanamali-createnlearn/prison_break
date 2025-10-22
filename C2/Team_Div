@@ -1,0 +1,32 @@
+-- ====================
+-- C2: Team Assignment
+-- ====================
+local Players = game:GetService("Players")
+local Teams = game:GetService("Teams")
+
+local prisonerTeam = Teams:FindFirstChild("Prisoners")
+local policeTeam = Teams:FindFirstChild("Police")
+
+Players.PlayerAdded:Connect(function(player)
+	if not (prisonerTeam and policeTeam) then
+		warn("Teams not found!")
+		return
+	end
+
+	-- Balanced assignment
+	local prisonerCount = #prisonerTeam:GetPlayers()
+	local policeCount = #policeTeam:GetPlayers()
+
+	if prisonerCount < policeCount then
+		player.Team = prisonerTeam
+	elseif policeCount < prisonerCount then
+		player.Team = policeTeam
+	else
+		player.Team = (math.random(1,2) == 1) and prisonerTeam or policeTeam
+	end
+
+	player.TeamColor = player.Team.TeamColor
+end)
+
+
+
