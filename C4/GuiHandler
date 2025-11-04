@@ -1,0 +1,29 @@
+--place this in StarterPlayerScripts
+
+local player = game.Players.LocalPlayer
+
+local function showTeamGui()
+	local playerGui = player:WaitForChild("PlayerGui")
+	local prisonerGui = playerGui:WaitForChild("PrisonerGUI")
+	local policeGui = playerGui:WaitForChild("PoliceGUI")
+	local policetl = policeGui:WaitForChild("Frame"):WaitForChild("TextLabel")
+	local prisonertl = prisonerGui:WaitForChild("Frame"):WaitForChild("TextLabel")
+
+	prisonerGui.Enabled = false
+	policeGui.Enabled = false
+
+	if player.Team and player.Team.Name == "Prisoners" then
+		prisonerGui.Enabled = true
+		prisonertl.Text = player.name.." spawned as Prisoner!"
+		wait(4)
+		prisonerGui.Enabled = false
+	elseif player.Team and player.Team.Name == "Police" then
+		policeGui.Enabled = true
+		policetl.Text = player.name.." spawned as a Police Officer!"
+		wait(4)
+		policeGui.Enabled = false
+	end
+end
+
+player.CharacterAdded:Connect(showTeamGui)
+player:GetPropertyChangedSignal("Team"):Connect(showTeamGui)
