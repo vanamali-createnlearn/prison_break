@@ -1,0 +1,11 @@
+--paste this in both the guis under the imagelabel
+
+local Players = game:GetService("Players")
+local player = Players.LocalPlayer
+local imageLabel = script.Parent
+
+local thumbType = Enum.ThumbnailType.HeadShot
+local thumbSize = Enum.ThumbnailSize.Size420x420
+local content, _ = Players:GetUserThumbnailAsync(player.UserId, thumbType, thumbSize)
+
+imageLabel.Image = content
