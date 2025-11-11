@@ -1,0 +1,47 @@
+-- LocalScript inside StarterPlayerScripts
+
+local UserInputService = game:GetService("UserInputService")
+local Players = game:GetService("Players")
+
+local player = Players.LocalPlayer
+local character = player.Character or player.CharacterAdded:Wait()
+local humanoid = character:WaitForChild("Humanoid")
+
+-- Settings
+local crouchAnimId = "rbxassetid://106409501276734" -- change to your own animation later
+local normalWalkSpeed = 16
+local crouchWalkSpeed = 8
+
+-- Load animation
+local crouchAnim = Instance.new("Animation")
+crouchAnim.AnimationId = crouchAnimId
+local crouchTrack = humanoid:LoadAnimation(crouchAnim)
+crouchTrack.Priority = Enum.AnimationPriority.Action
+
+local crouching = false
+
+UserInputService.InputBegan:Connect(function(input, processed)
+	if processed then return end
+	if input.KeyCode == Enum.KeyCode.C then
+		if crouching then
+			-- Stand up
+			crouching = false
+			humanoid.WalkSpeed = normalWalkSpeed
+			if crouchTrack.IsPlaying then
+				crouchTrack:Stop()
+			end
+		else
+			-- Crouch
+			crouching = true
+			humanoid.WalkSpeed = crouchWalkSpeed
+			crouchTrack:Play()
+		end
+	end
+end)
+
+-- Reset animation if player respawns
+player.CharacterAdded:Connect(function(newChar)
+	character = newChar
+	humanoid = character:WaitForChild("Humanoid")
+	crouchTrack = humanoid:LoadAnimation(crouchAnim)
+end)
